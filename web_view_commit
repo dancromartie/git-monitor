@@ -1,0 +1,35 @@
+#!/usr/bin/python
+
+import re
+import subprocess
+import sys
+
+url_template = "https://stash.ondeck.tools/projects/STAT/repos/%s/commits/%s"
+results = subprocess.check_output([
+    "git",
+    "remote",
+    "-v"
+])
+
+results = results.split("\n")
+repo_name = None
+for result in results:
+    if ".git" in result:
+        matches = re.search(r'/([^/]+).git', result)
+        if matches:
+            repo_name = matches.group(1)
+
+if not repo_name:
+    sys.exit("Repo name didn't get set!  Are you inside a repo?")
+
+try:
+    commit_hash = sys.argv[1]
+    assert commit_hash
+except:
+    sys.exit("You didn't supply a commit hash!")
+
+final_url = url_template % (repo_name, commit_hash)
+subprocess.call([
+    "open",
+    final_url
+])

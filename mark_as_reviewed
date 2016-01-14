@@ -1,0 +1,26 @@
+#!/usr/bin/python
+
+import os
+import sys
+
+import config
+
+commit_hash = sys.argv[1]
+try:
+    assert len(commit_hash) == config.HASH_SNIPPET_SIZE
+except:
+    sys.exit(
+        "Your hash is the wrong size.  Where did you grab it from?  Help me keep things straight."
+    )
+
+try:
+    handle = open(config.REVIEWED_HASHES_FNAME, "a")
+    handle.write(commit_hash + "\n")
+    handle.close()
+except:
+    print "Could not write to hashes file at %.  Does it exist?" %\
+        config.REVIEWED_HASHES_FNAME
+
+
+    
+

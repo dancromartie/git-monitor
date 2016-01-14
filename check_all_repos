@@ -1,0 +1,19 @@
+#!/usr/bin/python
+
+import glob
+import os
+import subprocess
+
+current_working_dir = os.getcwd()
+assert "/tmp" in current_working_dir, "This is dangerous to run anywhere.  Do this in /tmp etc"
+paths = glob.glob('*/')
+print "folders are %s" % paths
+
+for path in paths:
+    print "-" * 40
+    print "SWITCHING TO %s" % path
+    os.chdir(os.path.abspath(path))
+    find_unreviewed = os.path.expanduser("~/.git-monitor/find_unreviewed")
+    subprocess.call(["git", "pull"])
+    subprocess.call([find_unreviewed])
+    os.chdir("..")

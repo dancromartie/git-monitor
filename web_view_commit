@@ -1,10 +1,11 @@
 #!/usr/bin/python
 
+import os
 import re
 import subprocess
 import sys
 
-url_template = "https://stash.ondeck.tools/projects/STAT/repos/%s/commits/%s"
+url_template = os.environ["GITMONITOR_URL_TEMPLATE"]
 results = subprocess.check_output([
     "git",
     "remote",

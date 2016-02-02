@@ -1,0 +1,38 @@
+#!/usr/bin/python
+import os
+import sys
+import subprocess
+
+import config
+
+results = subprocess.check_output([
+    "git",
+    "log",
+    # n commits
+    "-15",
+    # all branches
+    "--all",
+    # oneline makes easier to grab commit hash
+    "--pretty=oneline"
+])
+
+
+try:
+    reviewed_hashes = open(config.REVIEWED_HASHES_FNAME).readlines()
+except:
+    sys.exit("Could not read file of reviewed hashes.  Are you in the right dir?")
+
+reviewed_hashes = [h.strip() for h in reviewed_hashes]
+reviewed_hashes = set(reviewed_hashes)
+
+for line in results.split("\n"):
+    line = line.strip()
+    if not line:
+        continue
+    splitup = line.split(" ", 1)
+    full_hash = splitup[0]
+    message = splitup[1]
+    if full_hash:
+        snippet = full_hash[:config.HASH_SNIPPET_SIZE]
+        if snippet not in reviewed_hashes:
+            print snippet, message

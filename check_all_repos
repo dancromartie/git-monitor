@@ -5,7 +5,9 @@ import os
 import subprocess
 
 current_working_dir = os.getcwd()
-assert "/tmp" in current_working_dir, "This is dangerous to run anywhere.  Do this in /tmp etc"
+assertion_message =  "This is dangerous to run anywhere. " \
+    "DO this in the special directory mentioned here"
+assert "/code-reviews" in current_working_dir, assertion_message
 paths = glob.glob('*/')
 print "folders are %s" % paths
 

@@ -12,8 +12,8 @@ results = subprocess.check_output([
     "-15",
     # all branches
     "--all",
-    # oneline makes easier to grab commit hash
-    "--format=%H %aN %aI"
+    # Hash, author name, date, subject
+    "--format=%H %aN %aI %s"
 ])
 
 

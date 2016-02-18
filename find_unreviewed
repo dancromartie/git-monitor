@@ -13,7 +13,7 @@ results = subprocess.check_output([
     # all branches
     "--all",
     # oneline makes easier to grab commit hash
-    "--pretty=oneline"
+    "--format=%H %aN %aI"
 ])
 
 
